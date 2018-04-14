@@ -29,9 +29,9 @@ public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
 			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		View rowView = inflater.inflate(R.layout.list_item, parent, false);
-		TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
-		TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
-		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+		TextView textView = rowView.findViewById(R.id.firstLine);
+		TextView secondLine = rowView.findViewById(R.id.secondLine);
+		ImageView imageView = rowView.findViewById(R.id.icon);
 
 		textView.setText(values.get(position).getTitle());
 		secondLine.setText(Integer.toString(values.get(position).getGold()));

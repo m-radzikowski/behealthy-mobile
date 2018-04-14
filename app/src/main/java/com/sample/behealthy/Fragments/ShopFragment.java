@@ -33,6 +33,8 @@ public class ShopFragment extends Fragment {
 	LinearLayout goldLL;
 	TextView goldTV;
 	ImageView chestIV;
+	View countView;
+	TextView countTV;
 
 	APIInterface apiInterface;
 
@@ -40,8 +42,7 @@ public class ShopFragment extends Fragment {
 
 	@SuppressLint("SetTextI18n")
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_shop, container, false);
 
 		// Setting up retrofit
@@ -57,41 +58,55 @@ public class ShopFragment extends Fragment {
 		});
 
 		goldTV = rootView.findViewById(R.id.gold_amount);
-		goldTV.setText(Integer.toString(User.Companion.getInstance(getActivity()).getGold()));
-
 		chestIV = rootView.findViewById(R.id.chest_icon);
-		User user = User.Companion.getInstance(getContext());
-		if (user.getAvailableChests() > 0){
-		chestIV.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onChestClick();
-			}
-		});}else{
-			//TODO: Brak skrzyń, dać ładniejszą grafikę
-			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
-			chestIV.setOnClickListener(null);
-		}
+		countView = rootView.findViewById(R.id.chest_amount_shape);
+		countTV = rootView.findViewById(R.id.chest_amount);
 
-		// TODO:
+		update();
+
+		// TODO
 		// add checking if user has any chests
 		// if not set chest to open state
 
 		return rootView;
 	}
 
-	private void updateChestState(boolean state) {
+	@SuppressLint("SetTextI18n")
+	public void update() {
+		User user = User.Companion.getInstance(getActivity());
+
+		goldTV.setText(Integer.toString(user.getGold()));
+		if (user.getAvailableChests() > 0) {
+			chestIV.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onChestClick();
+				}
+			});
+			countTV.setVisibility(View.VISIBLE);
+			countView.setVisibility(View.VISIBLE);
+		} else {
+			// TODO
+			// Brak skrzyń, dać ładniejszą grafikę
+			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
+			chestIV.setOnClickListener(null);
+			countTV.setVisibility(View.INVISIBLE);
+			countView.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	private void changeChestState(boolean state) {
 		chestOpened = state;
 		User user = User.Companion.getInstance(getContext());
-		if (user.getAvailableChests() > 0){
-		chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
-			R.drawable.chest_open : R.drawable.chest_closed));
-		}else {
-			//TODO: Brak skrzyń, dać ładniejszą grafikę
+		if (user.getAvailableChests() > 0) {
+			chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
+				R.drawable.chest_open : R.drawable.chest_closed));
+		} else {
+			//TODO
+			// Brak skrzyń, dać ładniejszą grafikę
 			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
 			chestIV.setOnClickListener(null);
 		}
-
 	}
 
 	private void onGoldLayoutClick() {
@@ -107,12 +122,13 @@ public class ShopFragment extends Fragment {
 		newFragment.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
-				updateChestState(false);
+				changeChestState(false);
 				updateAmountOfGold();
 			}
 		});
 	}
 
+	@SuppressLint("SetTextI18n")
 	private void updateAmountOfGold() {
 		User user = User.Companion.getInstance(getContext());
 		if (goldTV != null) {
@@ -126,31 +142,31 @@ public class ShopFragment extends Fragment {
 			return;
 		}
 
-		updateChestState(true);
+		changeChestState(true);
 
-		// TODO:
+		// TODO
 		// add progressbar and add some delay to show functionality?
 
-		Call<Gold> chestOpenCall = apiInterface.getChestReward();
+		Call<Gold> chestOpenCall = apiInterface.getChestReward(User.Companion.getInstance(getActivity()).getId());
 		chestOpenCall.enqueue(new Callback<Gold>() {
 			@Override
 			public void onResponse(Call<Gold> call, Response<Gold> response) {
 				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
 				User user = User.Companion.getInstance(getContext());
 				Gold gold = response.body();
-				if (gold != null){
-					//TODO Brak monet, dorobić odpowiednie sprawdzanie
+
+				if (gold != null) {
+					//TODO
+					// Brak monet, dorobić odpowiednie sprawdzanie
 					user.setGold(user.getGold() + gold.getGold());
 					showRewardDialog();
 				}
 
-
-				if(user.getAvailableChests() > 0){
-					// TODO:
+				if (user.getAvailableChests() > 0) {
+					// TODO
 					// add checking if user has any chests
 					// if yes set chest to closed state
 				}
-
 			}
 
 			@Override
@@ -159,7 +175,7 @@ public class ShopFragment extends Fragment {
 				call.cancel();
 
 				// we failed to open chest so the option should be available
-				updateChestState(false);
+				changeChestState(false);
 			}
 		});
 	}

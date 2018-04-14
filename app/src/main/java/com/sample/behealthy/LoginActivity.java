@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.models.SyncData;
 import com.sample.behealthy.models.User;
 
 import retrofit2.Call;
@@ -50,19 +51,19 @@ public class LoginActivity extends FragmentActivity {
 	}
 
 	private void login(String username, String password) {
-		Call<User> chestOpenCall = apiInterface.getUser(username, password);
-		chestOpenCall.enqueue(new Callback<User>() {
+		Call<SyncData> loginCall = apiInterface.getUser(username, password);
+		loginCall.enqueue(new Callback<SyncData>() {
 			@Override
-			public void onResponse(Call<User> call, Response<User> response) {
+			public void onResponse(Call<SyncData> call, Response<SyncData> response) {
 				if (response.body() != null) {
-					onSuccessfulLogin(response.body());
+					onSuccessfulLogin(response.body().getUser());
 				} else {
-					onFailedLogin("jakis tam");
+					onFailedLogin("Obtained null body");
 				}
 			}
 
 			@Override
-			public void onFailure(Call<User> call, Throwable t) {
+			public void onFailure(Call<SyncData> call, Throwable t) {
 				call.cancel();
 				onFailedLogin(t.getMessage());
 			}
@@ -70,6 +71,9 @@ public class LoginActivity extends FragmentActivity {
 	}
 
 	private void onSuccessfulLogin(User user) {
+		if(user == null)
+			return;
+
 		User.Companion.setInitialUser(user);
 
 		Intent intent = new Intent(this, MainActivity.class);
