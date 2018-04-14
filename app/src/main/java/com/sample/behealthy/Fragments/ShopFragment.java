@@ -32,6 +32,7 @@ public class ShopFragment extends Fragment {
 
 	LinearLayout goldLL;
 	TextView goldTV;
+	TextView chestAmount;
 	ImageView chestIV;
 
 	APIInterface apiInterface;
@@ -43,7 +44,7 @@ public class ShopFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_shop, container, false);
-
+		chestAmount = rootView.findViewById(R.id.chest_amount);
 		// Setting up retrofit
 		apiInterface = APIClient.getClient().create(APIInterface.class);
 
@@ -61,6 +62,7 @@ public class ShopFragment extends Fragment {
 
 		chestIV = rootView.findViewById(R.id.chest_icon);
 		User user = User.Companion.getInstance(getContext());
+		chestAmount.setText(Integer.toString(user.getAvailableChests()));
 		if (user.getAvailableChests() > 0){
 		chestIV.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -83,6 +85,7 @@ public class ShopFragment extends Fragment {
 	private void updateChestState(boolean state) {
 		chestOpened = state;
 		User user = User.Companion.getInstance(getContext());
+		chestAmount.setText(Integer.toString(user.getAvailableChests()));
 		if (user.getAvailableChests() > 0){
 		chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
 			R.drawable.chest_open : R.drawable.chest_closed));
