@@ -1,19 +1,3 @@
-/*
- * Copyright 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.sample.behealthy;
 
 import android.app.ActionBar;
@@ -31,107 +15,102 @@ import com.sample.behealthy.Fragments.ShopFragment;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
-    AppSectionsPagerAdapter mAppSectionsPagerAdapter;
+	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
-    ViewPager mViewPager;
-    public static int HERO_FRAGMENT_NUMBER = 1;
+	ViewPager mViewPager;
+	public static int HERO_FRAGMENT_NUMBER = 1;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
-        final ActionBar actionBar = getActionBar();
-
-
-        actionBar.setHomeButtonEnabled(false);
-
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		final ActionBar actionBar = getActionBar();
+		actionBar.setHomeButtonEnabled(false);
+		getActionBar().setDisplayShowTitleEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mAppSectionsPagerAdapter);
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mAppSectionsPagerAdapter);
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				actionBar.setSelectedNavigationItem(position);
+			}
+		});
 
-        for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mAppSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
+		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
+			actionBar.addTab(
+				actionBar.newTab()
+					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
+		}
 
-        mViewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
+		mViewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
+	}
 
-    }
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+	}
 
+	@Override
+	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+		mViewPager.setCurrentItem(tab.getPosition());
+	}
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+	@Override
+	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+	}
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
+	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+		public AppSectionsPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
 
+		@Override
+		public Fragment getItem(int i) {
+			Fragment fragment = null;
+			switch (i) {
+				case 0:
+					fragment = new ShopFragment();
+					break;
+				case 1:
+					fragment = new HeroFragment();
+					break;
+				case 2:
+					fragment = new QuestsFragment();
+					break;
+			}
+			return fragment;
+		}
 
-    public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+		@Override
+		public int getCount() {
+			return 3;
+		}
 
-        public AppSectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return getStringForPosition(position);
+		}
+	}
 
-        @Override
-        public Fragment getItem(int i) {
-            Fragment fragment =null;
-            switch (i) {
-                case 0:
-                    fragment =  new ShopFragment();
-                    break;
-                case 1:
-                    fragment =  new HeroFragment();
-                    break;
-                case 2:
-                    fragment =  new QuestsFragment();
-                    break;
-            }
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return getStringForPosition(position);
-        }
-    }
-
-    public static String getStringForPosition(int position){
-        String fragmentTitle = "";
-        switch (position) {
-            case 0:
-                fragmentTitle = "Sklep";
-                break;
-            case 1:
-                fragmentTitle =  "Bohater";
-                break;
-            case 2:
-                fragmentTitle =  "Misje";
-                break;
-        }
-        return fragmentTitle;
-    }
+	public static String getStringForPosition(int position) {
+		String fragmentTitle = "";
+		switch (position) {
+			case 0:
+				fragmentTitle = "Sklep";
+				break;
+			case 1:
+				fragmentTitle = "Bohater";
+				break;
+			case 2:
+				fragmentTitle = "Misje";
+				break;
+		}
+		return fragmentTitle;
+	}
 }

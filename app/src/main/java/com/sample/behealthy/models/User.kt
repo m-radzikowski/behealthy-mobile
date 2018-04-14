@@ -18,6 +18,11 @@ data class User(var id: Int,
 
             return instance!!
         }
+
+        @Synchronized
+        fun setInitialUser(usr: User) {
+            instance = usr
+        }
     }
 }
 
