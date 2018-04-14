@@ -35,8 +35,10 @@ public class MobileArrayAdapter extends ArrayAdapter<Quest> {
 		for (Quest value: values) {
 			textView.setText(value.getTitle());
 			secondLine.setText(value.getDescription());
+			if (value.getDone()){
+			imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.coin));
+			}
 		}
-
 
 		return rowView;
 	}
