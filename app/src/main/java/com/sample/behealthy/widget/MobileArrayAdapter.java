@@ -9,15 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sample.behealthy.R;
-import com.sample.behealthy.models.Quest;
+import com.sample.behealthy.models.Coupon;
 
 import java.util.List;
 
-public class MobileArrayAdapter extends ArrayAdapter<Quest> {
+public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
 	private final Context context;
-	private final List<Quest> values;
+	private final List<Coupon> values;
 
-	public MobileArrayAdapter(Context context, List<Quest> values) {
+	public MobileArrayAdapter(Context context, List<Coupon> values) {
 		super(context, R.layout.list_item, values);
 		this.context = context;
 		this.values = values;
@@ -32,13 +32,12 @@ public class MobileArrayAdapter extends ArrayAdapter<Quest> {
 		TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
 		TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-		for (Quest value: values) {
+		for (Coupon value: values) {
 			textView.setText(value.getTitle());
-			secondLine.setText(value.getDescription());
-			if (value.getDone()){
+			secondLine.setText(value.getGold());
 			imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.coin));
 			}
-		}
+
 
 		return rowView;
 	}

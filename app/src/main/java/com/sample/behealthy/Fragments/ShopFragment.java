@@ -2,8 +2,8 @@ package com.sample.behealthy.Fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,7 @@ import com.sample.behealthy.Dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
-import com.sample.behealthy.models.User;
+import com.sample.behealthy.models.Gold;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,11 +102,14 @@ public class ShopFragment extends Fragment {
 		// TODO:
 		// add progressbar and add some delay to show functionality?
 
-		Call<User> chestOpenCall = apiInterface.getChestReward();
-		chestOpenCall.enqueue(new Callback<User>() {
+		Call<Gold> chestOpenCall = apiInterface.getChestReward();
+		chestOpenCall.enqueue(new Callback<Gold>() {
 			@Override
-			public void onResponse(Call<User> call, Response<User> response) {
+			public void onResponse(Call<Gold> call, Response<Gold> response) {
 				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+				Gold gold = response.body();
+				//User user = User.Companion.getInstance(getContext());
+				//user.setGold(user.getGold() + gold.getGold());
 				showRewardDialog();
 
 				// TODO:
@@ -115,7 +118,7 @@ public class ShopFragment extends Fragment {
 			}
 
 			@Override
-			public void onFailure(Call<User> call, Throwable t) {
+			public void onFailure(Call<Gold> call, Throwable t) {
 				Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 				call.cancel();
 

@@ -1,9 +1,10 @@
 package com.sample.behealthy.api;
 
 
+import com.sample.behealthy.models.Coupon;
+import com.sample.behealthy.models.Gold;
 import com.sample.behealthy.models.Mission;
 import com.sample.behealthy.models.Quest;
-import com.sample.behealthy.models.User;
 
 import java.util.List;
 
@@ -23,5 +24,8 @@ public interface APIInterface {
 	Call<Mission> getMissions();
 
 	@POST("/user/1/chest/open")
-	Call<User> getChestReward();
+	Call<Gold> getChestReward();
+
+	@GET("/user/1/coupon")
+	Call<List<Coupon>> getCoupons();
 }
