@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.sample.behealthy.Dialogs.ShopDialog;
 import com.sample.behealthy.R;
 
 public class ShopFragment extends Fragment {
@@ -44,16 +46,8 @@ public class ShopFragment extends Fragment {
 	}
 
 	private void onGoldLayoutClick() {
-		AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-		alertDialog.setTitle("Shop Dialog");
-		alertDialog.setMessage("Later this will contain items to buy with gold");
-		alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-			new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			});
-		alertDialog.show();
+		DialogFragment newFragment = new ShopDialog();
+		newFragment.show(getFragmentManager(),"ShopDialog");
 	}
 
 	private void onChestClick() {
