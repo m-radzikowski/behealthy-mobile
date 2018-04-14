@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="60dp"
-        android:textAlignment="center"
-        android:text="REWARD GATHERED (show later what reward was obtained)" />
+        android:layout_gravity="center"
+        android:fontFamily="@font/arcadeclassic"
+        android:padding="10dp"
+        android:text="w    skrzynce    trafiles    na"
+        android:textAlignment="center" />
 
-</RelativeLayout >
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:src="@drawable/coin" />
+
+    <TextView
+        android:id="@+id/gold_reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/arcadeclassic"
+        android:padding="10dp"
+        android:text="x   sztuk   zlota"
+        android:textAlignment="center" />
+
+</LinearLayout>

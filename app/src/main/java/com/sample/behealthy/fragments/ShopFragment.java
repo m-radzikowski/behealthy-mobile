@@ -129,7 +129,13 @@ public class ShopFragment extends Fragment {
 	}
 
 	private void showRewardDialog() {
+		// TODO:
+		// display proper reward value
+		Bundle args = new Bundle();
+		args.putInt(RewardDialog.GOLD_REWARD_KEY, 5);
+
 		DialogFragment newFragment = new RewardDialog();
+		newFragment.setArguments(args);
 		newFragment.show(getFragmentManager(), REWARD_DIALOGTAG);
 
 		getFragmentManager().executePendingTransactions();

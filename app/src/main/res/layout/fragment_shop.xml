@@ -16,8 +16,8 @@
             android:id="@+id/ticket_icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:padding="10dp"
             android:layout_marginRight="150dp"
+            android:padding="10dp"
             android:src="@drawable/ticket" />
 
         <TextView
@@ -53,9 +53,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginRight="70dp"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/circle_shape"/>
+        android:layout_marginRight="70dp"
+        android:background="@drawable/circle_shape" />
 
     <TextView
         android:id="@+id/chest_amount"
@@ -74,9 +74,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="200dp"
-        android:textAlignment="center"
         android:fontFamily="@font/arcadeclassic"
         android:text="zdobywaj   skrzynki   za   osiagniete   poziomy "
+        android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="30sp" />
 
@@ -85,9 +85,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="110dp"
-        android:textAlignment="center"
         android:fontFamily="@font/arcadeclassic"
         android:text="zloto    wydawaj   na   specjalne    kupony"
+        android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="30sp" />
 

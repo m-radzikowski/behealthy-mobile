@@ -8,11 +8,11 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
         android:text="Imie"
+        android:textAlignment="center"
         android:textColor="#000"
         android:textSize="40sp" />
 
@@ -28,12 +28,12 @@
         android:id="@+id/level_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="210dp"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
         android:text="3    lvl"
+        android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="40sp" />
 
@@ -56,8 +56,8 @@
         android:layout_width="300dp"
         android:layout_height="25dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:progress="0"
-        android:layout_marginBottom="120dp"/>
+        android:layout_marginBottom="120dp"
+        android:progress="0" />
 
 
 </FrameLayout>
