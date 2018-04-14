@@ -1,5 +1,6 @@
 package com.sample.behealthy.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.behealthy.Dialogs.RewardDialog;
@@ -28,12 +30,14 @@ public class ShopFragment extends Fragment {
 	final String SHOP_DIALOGTAG = "shop_dialog";
 
 	LinearLayout goldLL;
+	TextView goldTV;
 	ImageView chestIV;
 
 	APIInterface apiInterface;
 
 	private boolean chestOpened = false;
 
+	@SuppressLint("SetTextI18n")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
@@ -50,6 +54,9 @@ public class ShopFragment extends Fragment {
 				onGoldLayoutClick();
 			}
 		});
+
+		goldTV = rootView.findViewById(R.id.gold_amount);
+		goldTV.setText(Integer.toString(User.Companion.getInstance(getActivity()).getGold()));
 
 		chestIV = rootView.findViewById(R.id.chest_icon);
 		chestIV.setOnClickListener(new View.OnClickListener() {

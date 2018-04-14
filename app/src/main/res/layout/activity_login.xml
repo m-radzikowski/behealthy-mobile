@@ -8,19 +8,19 @@
         android:id="@+id/linerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
             android:text="LOGING"
             android:textAlignment="center"
-            android:textSize="50sp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"/>
+            android:textSize="50sp" />
 
         <EditText
             android:id="@+id/username_edit"
@@ -28,14 +28,22 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="tester" />
 
         <EditText
             android:id="@+id/password_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:text="qwerty" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Log In" />
 
     </LinearLayout>
 
