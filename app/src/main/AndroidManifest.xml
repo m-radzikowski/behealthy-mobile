@@ -23,7 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+            android:name=".MainActivity" />
     </application>
 </manifest>
