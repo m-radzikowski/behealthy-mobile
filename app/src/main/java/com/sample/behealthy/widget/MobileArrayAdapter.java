@@ -32,11 +32,10 @@ public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
 		TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
 		TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-		for (Coupon value: values) {
-			textView.setText(value.getTitle());
-			secondLine.setText(value.getGold());
-			imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.coin));
-			}
+
+		textView.setText(values.get(position).getTitle());
+		secondLine.setText(Integer.toString(values.get(position).getGold()));
+		imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.coin));
 
 
 		return rowView;
