@@ -18,7 +18,7 @@
             android:padding="10dp"
             android:layout_marginTop="20dp"
             android:textColor="#fff"
-            android:text="Zadania    dzienne"
+            android:text="dzisiejsze   questy"
             android:textAlignment="center"
             android:textSize="40sp" />
 

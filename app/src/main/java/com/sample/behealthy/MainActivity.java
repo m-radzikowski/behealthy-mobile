@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.rd.PageIndicatorView;
 import com.sample.behealthy.Fragments.HeroFragment;
 import com.sample.behealthy.Fragments.QuestsFragment;
 import com.sample.behealthy.Fragments.ShopFragment;
@@ -14,7 +15,7 @@ import com.sample.behealthy.Fragments.ShopFragment;
 public class MainActivity extends FragmentActivity {
 
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
-
+	PageIndicatorView pageIndicatorView;
 	ViewPager mViewPager;
 	public static int HERO_FRAGMENT_NUMBER = 1;
 
@@ -34,8 +35,12 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		mViewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
-	}
 
+		pageIndicatorView = findViewById(R.id.pageIndicatorView);
+		pageIndicatorView.setCount(3);
+		pageIndicatorView.setSelection(1);
+		pageIndicatorView.setViewPager(mViewPager);
+	}
 
 	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
