@@ -1,11 +1,9 @@
 package com.sample.behealthy.api;
 
-
 import com.sample.behealthy.models.Coupon;
 import com.sample.behealthy.models.Gold;
-import com.sample.behealthy.models.Mission;
 import com.sample.behealthy.models.Quest;
-import com.sample.behealthy.models.User;
+import com.sample.behealthy.models.SyncData;
 
 import java.util.List;
 
@@ -18,32 +16,30 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
 
-	@GET("/api/quests")
-	Call<Quest> getQuests();
-
-	@GET("/user/1/quest/daily")
-	Call<List<Quest>> getDailyQuest();
-
-	@GET("/api/missions")
-	Call<Mission> getMissions();
+	@GET("/user/{u_id}/quest/daily")
+	Call<List<Quest>> getDailyQuest(@Path("u_id") Integer userId);
 
 	@Headers({"Accept: application/json"})
-	@POST("/user/1/chest/open")
-	Call<Gold> getChestReward();
+	@POST("/user/{u_id}/chest/open")
+	Call<Gold> getChestReward(@Path("u_id") Integer userId);
 
 	@Headers({"Accept: application/json"})
-	@GET("/user/1/coupon/available")
-	Call<List<Coupon>> getAvailableCoupons();
+	@GET("/user/{u_id}/coupon/available")
+	Call<List<Coupon>> getAvailableCoupons(@Path("u_id") Integer userId);
 
 	@Headers({"Accept: application/json"})
-	@GET("/user/1/coupon/my")
-	Call<List<Coupon>> getMyCoupons();
+	@GET("/user/{u_id}/coupon/my")
+	Call<List<Coupon>> getMyCoupons(@Path("u_id") Integer userId);
 
 	@Headers({"Accept: application/json"})
-	@POST("/user/1/coupon/{id}/buy")
-	Call<Coupon> buyCoupon(@Path("id") Integer couponId);
+	@POST("/user/{u_id}/coupon/{id}/buy")
+	Call<Coupon> buyCoupon(@Path("id") Integer couponId, @Path("u_id") Integer userId);
 
-	@Headers("Content-Type: application/json")
+	@Headers({"Accept: application/json"})
 	@GET("/login")
-	Call<User> getUser(@Query("login") String username, @Query("password") String password);
+	Call<SyncData> getUser(@Query("login") String username, @Query("password") String password);
+
+	@Headers({"Accept: application/json"})
+	@GET("/user/{u_id}/sync")
+	Call<SyncData> getSyncData(@Path("u_id") Integer userId);
 }

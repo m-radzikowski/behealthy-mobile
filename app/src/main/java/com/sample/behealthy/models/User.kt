@@ -7,7 +7,9 @@ data class User(var id: Int,
                 var password: String,
                 var endoId: Int,
                 var availableChests: Int,
-                var gold: Int) {
+                var gold: Int,
+                var exp: Int,
+                var lvl: Int) {
     companion object {
         private var instance: User? = null
 

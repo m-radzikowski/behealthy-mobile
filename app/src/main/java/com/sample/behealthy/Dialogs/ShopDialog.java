@@ -2,6 +2,7 @@ package com.sample.behealthy.Dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
 import com.sample.behealthy.models.Coupon;
+import com.sample.behealthy.models.User;
 import com.sample.behealthy.widget.MobileArrayAdapter;
 
 import java.util.List;
@@ -30,81 +32,70 @@ public class ShopDialog extends DialogFragment {
 	ListView listView;
 	ProgressBar progressBar;
 	TextView textView;
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_shop, container, false);
-		listView =  rootView.findViewById(R.id.couponsListView);
+		listView = rootView.findViewById(R.id.couponsListView);
 		progressBar = rootView.findViewById(R.id.progressBar);
 		textView = rootView.findViewById(R.id.text);
-		// Inflate the layout to use as dialog or embedded fragment
+
 		return rootView;
 	}
 
+	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Dialog dialog = super.onCreateDialog(savedInstanceState);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		apiInterface = APIClient.getClient().create(APIInterface.class);
-
 		return dialog;
-		/*
-		// Build the dialog and set up the button click handlers
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-		builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dismiss();
-			}
-		});
-
-		return builder.create();
-		*/
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		Call<List<Coupon>> call2 = apiInterface.getAvailableCoupons();
-		call2.enqueue(new Callback<List<Coupon>>() {
+
+		Call<List<Coupon>> getCouponsCall = apiInterface.getAvailableCoupons(User.Companion.getInstance(getActivity()).getId());
+		getCouponsCall.enqueue(new Callback<List<Coupon>>() {
 			@Override
 			public void onResponse(Call<List<Coupon>> call, Response<List<Coupon>> response) {
-
-				final List<Coupon> coupons = response.body();
-				listView.setAdapter(new MobileArrayAdapter(getContext(), coupons));
-				listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-				{
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
-					{
-						Call<Coupon> buyCoupon = apiInterface.buyCoupon(coupons.get(position).getId());
-						buyCoupon.enqueue(new Callback<Coupon>() {
-							@Override
-							public void onResponse(Call<Coupon> call, Response<Coupon> response) {
-								Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-
-							}
-
-							@Override
-							public void onFailure(Call<Coupon> call, Throwable t) {
-								Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-								call.cancel();
-							}
-						});
-					}
-				});
-				textView.setVisibility(View.GONE);
-				progressBar.setVisibility(View.GONE);
-
+				couponsObtained(response.body());
 			}
 
 			@Override
 			public void onFailure(Call<List<Coupon>> call, Throwable t) {
 				call.cancel();
 				Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 
+	private void couponsObtained(final List<Coupon> coupons) {
+		listView.setAdapter(new MobileArrayAdapter(getContext(), coupons));
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				couponClicked(coupons.get(position));
+			}
+		});
+
+		textView.setVisibility(View.GONE);
+		progressBar.setVisibility(View.GONE);
+	}
+
+	private void couponClicked(Coupon coupon) {
+		Call<Coupon> buyCouponCall = apiInterface.buyCoupon(coupon.getId(), User.Companion.getInstance(getActivity()).getId());
+		buyCouponCall.enqueue(new Callback<Coupon>() {
+			@Override
+			public void onResponse(Call<Coupon> call, Response<Coupon> response) {
+				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onFailure(Call<Coupon> call, Throwable t) {
+				Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+				call.cancel();
 			}
 		});
 	}
