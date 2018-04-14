@@ -16,6 +16,7 @@ import com.sample.behealthy.Dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.models.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,10 +102,10 @@ public class ShopFragment extends Fragment {
 		// TODO:
 		// add progressbar and add some delay to show functionality?
 
-		Call<String> chestOpenCall = apiInterface.getChestReward();
-		chestOpenCall.enqueue(new Callback<String>() {
+		Call<User> chestOpenCall = apiInterface.getChestReward();
+		chestOpenCall.enqueue(new Callback<User>() {
 			@Override
-			public void onResponse(Call<String> call, Response<String> response) {
+			public void onResponse(Call<User> call, Response<User> response) {
 				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
 				showRewardDialog();
 
@@ -114,7 +115,7 @@ public class ShopFragment extends Fragment {
 			}
 
 			@Override
-			public void onFailure(Call<String> call, Throwable t) {
+			public void onFailure(Call<User> call, Throwable t) {
 				Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 				call.cancel();
 
