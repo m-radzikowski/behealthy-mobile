@@ -1,7 +1,5 @@
 package com.sample.behealthy;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,14 +7,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.rd.PageIndicatorView;
 import com.sample.behealthy.Fragments.HeroFragment;
 import com.sample.behealthy.Fragments.QuestsFragment;
 import com.sample.behealthy.Fragments.ShopFragment;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity {
 
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
-
+	PageIndicatorView pageIndicatorView;
 	ViewPager mViewPager;
 	public static int HERO_FRAGMENT_NUMBER = 1;
 
@@ -26,65 +25,41 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
-		final ActionBar actionBar = getActionBar();
-		actionBar.setHomeButtonEnabled(false);
-		getActionBar().setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mAppSectionsPagerAdapter);
 		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
-				actionBar.setSelectedNavigationItem(position);
+				// TODO:
+				//actionBar.setSelectedNavigationItem(position);
 			}
 		});
-
-		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-			actionBar.addTab(
-				actionBar.newTab()
-					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
-		}
-
 		mViewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
-	}
 
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+		pageIndicatorView = findViewById(R.id.pageIndicatorView);
+		pageIndicatorView.setCount(3);
+		pageIndicatorView.setSelection(1);
+		pageIndicatorView.setViewPager(mViewPager);
 	}
 
 	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
-		public AppSectionsPagerAdapter(FragmentManager fm) {
+		AppSectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
 
 		@Override
 		public Fragment getItem(int i) {
-			Fragment fragment = null;
 			switch (i) {
 				case 0:
-					fragment = new ShopFragment();
-					break;
+					return new ShopFragment();
 				case 1:
-					fragment = new HeroFragment();
-					break;
+					return new HeroFragment();
 				case 2:
-					fragment = new QuestsFragment();
-					break;
+					return new QuestsFragment();
+				default:
+					return null;
 			}
-			return fragment;
 		}
 
 		@Override
@@ -94,23 +69,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return getStringForPosition(position);
+			switch (position) {
+				case 0:
+					return "Sklep";
+				case 1:
+					return "Bohater";
+				case 2:
+					return "Misje";
+				default:
+					return "";
+			}
 		}
-	}
-
-	public static String getStringForPosition(int position) {
-		String fragmentTitle = "";
-		switch (position) {
-			case 0:
-				fragmentTitle = "Sklep";
-				break;
-			case 1:
-				fragmentTitle = "Bohater";
-				break;
-			case 2:
-				fragmentTitle = "Misje";
-				break;
-		}
-		return fragmentTitle;
 	}
 }

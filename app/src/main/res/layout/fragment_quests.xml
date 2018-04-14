@@ -16,15 +16,18 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/arcadeclassic"
             android:padding="10dp"
+            android:layout_marginTop="20dp"
             android:textColor="#fff"
-            android:text="Zadania dzienne"
+            android:text="dzisiejsze   questy"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="40sp" />
 
         <ListView
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="20.0sp"/>
     </LinearLayout>
 </FrameLayout>
