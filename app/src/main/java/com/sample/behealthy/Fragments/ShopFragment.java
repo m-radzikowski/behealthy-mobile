@@ -18,8 +18,13 @@ import com.sample.behealthy.Dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.Gold;
 import com.sample.behealthy.models.User;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,11 +69,24 @@ public class ShopFragment extends Fragment {
 
 		update();
 
-		// TODO
-		// add checking if user has any chests
-		// if not set chest to open state
-
 		return rootView;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EventBus.getDefault().register(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EventBus.getDefault().unregister(this);
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onUpdateEvent(UpdateEvent event) {
+		update();
 	}
 
 	@SuppressLint("SetTextI18n")

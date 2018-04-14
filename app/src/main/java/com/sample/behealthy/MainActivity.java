@@ -1,8 +1,6 @@
 package com.sample.behealthy;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -17,8 +15,11 @@ import com.sample.behealthy.Fragments.QuestsFragment;
 import com.sample.behealthy.Fragments.ShopFragment;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.SyncData;
 import com.sample.behealthy.models.User;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,18 +70,11 @@ public class MainActivity extends FragmentActivity {
 		syncDataCall.enqueue(new Callback<SyncData>() {
 			@Override
 			public void onResponse(Call<SyncData> call, Response<SyncData> response) {
-				// TODO
-				// show response data and update views
 				mySwipeRefreshLayout.setRefreshing(false);
-
-				// TODO:
-				// add eventbuss event
-
-				//((ShopFragment)mAppSectionsPagerAdapter.getItem(0)).update(getApplicationContext());
-				//((HeroFragment)mAppSectionsPagerAdapter.getItem(1)).update(getApplicationContext());
-				//((QuestsFragment)mAppSectionsPagerAdapter.getItem(2)).update();
-
 				Toast.makeText(getApplication(), "Sync succeded", Toast.LENGTH_SHORT).show();
+
+				User.Companion.setInitialUser(response.body().getUser());
+				EventBus.getDefault().post(new UpdateEvent());
 			}
 
 			@Override
