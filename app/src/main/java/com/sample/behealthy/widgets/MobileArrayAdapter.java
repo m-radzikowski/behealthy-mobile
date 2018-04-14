@@ -1,4 +1,4 @@
-package com.sample.behealthy.widget;
+package com.sample.behealthy.widgets;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import com.sample.behealthy.models.Coupon;
 import java.util.List;
 
 public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
+
 	private final Context context;
 	private final List<Coupon> values;
 

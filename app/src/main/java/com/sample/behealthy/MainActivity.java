@@ -10,9 +10,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
-import com.sample.behealthy.Fragments.HeroFragment;
-import com.sample.behealthy.Fragments.QuestsFragment;
-import com.sample.behealthy.Fragments.ShopFragment;
+import com.sample.behealthy.fragments.HeroFragment;
+import com.sample.behealthy.fragments.QuestsFragment;
+import com.sample.behealthy.fragments.ShopFragment;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
 import com.sample.behealthy.events.UpdateEvent;
@@ -27,12 +27,16 @@ import retrofit2.Response;
 
 public class MainActivity extends FragmentActivity {
 
-	public static int HERO_FRAGMENT_NUMBER = 1;
+	static final int HERO_FRAGMENT_NUMBER = 1;
+	static final int SHOP_FRAGMENT_NUMBER = 0;
+	static final int QUEST_FRAGMENT_NUMBER = 2;
 
-	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
+	static final int NB_OF_VIEWS = 3;
+
+	AppSectionsPagerAdapter sectionsPagerAdapter;
 	PageIndicatorView pageIndicatorView;
-	SwipeRefreshLayout mySwipeRefreshLayout;
-	ViewPager mViewPager;
+	SwipeRefreshLayout swipeRefreshLayout;
+	ViewPager viewPager;
 	APIInterface apiInterface;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,14 +47,14 @@ public class MainActivity extends FragmentActivity {
 		apiInterface = APIClient.getClient().create(APIInterface.class);
 
 		// Setting up view
-		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+		sectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
-		mViewPager = findViewById(R.id.pager);
-		mViewPager.setAdapter(mAppSectionsPagerAdapter);
-		mViewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
+		viewPager = findViewById(R.id.pager);
+		viewPager.setAdapter(sectionsPagerAdapter);
+		viewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
 
-		mySwipeRefreshLayout = findViewById(R.id.swiperefresh);
-		mySwipeRefreshLayout.setOnRefreshListener(
+		swipeRefreshLayout = findViewById(R.id.swiperefresh);
+		swipeRefreshLayout.setOnRefreshListener(
 			new SwipeRefreshLayout.OnRefreshListener() {
 				@Override
 				public void onRefresh() {
@@ -60,9 +64,9 @@ public class MainActivity extends FragmentActivity {
 		);
 
 		pageIndicatorView = findViewById(R.id.pageIndicatorView);
-		pageIndicatorView.setCount(3);
-		pageIndicatorView.setSelection(1);
-		pageIndicatorView.setViewPager(mViewPager);
+		pageIndicatorView.setCount(NB_OF_VIEWS);
+		pageIndicatorView.setSelection(HERO_FRAGMENT_NUMBER);
+		pageIndicatorView.setViewPager(viewPager);
 	}
 
 	private void refreshUserData() {
@@ -70,7 +74,7 @@ public class MainActivity extends FragmentActivity {
 		syncDataCall.enqueue(new Callback<SyncData>() {
 			@Override
 			public void onResponse(Call<SyncData> call, Response<SyncData> response) {
-				mySwipeRefreshLayout.setRefreshing(false);
+				swipeRefreshLayout.setRefreshing(false);
 				Toast.makeText(getApplication(), "Sync succeded", Toast.LENGTH_SHORT).show();
 
 				User.Companion.setInitialUser(response.body().getUser());
@@ -80,7 +84,7 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onFailure(Call<SyncData> call, Throwable t) {
 				call.cancel();
-				mySwipeRefreshLayout.setRefreshing(false);
+				swipeRefreshLayout.setRefreshing(false);
 				Toast.makeText(getApplication(), "Sync failed", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -94,11 +98,11 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public Fragment getItem(int i) {
 			switch (i) {
-				case 0:
+				case SHOP_FRAGMENT_NUMBER:
 					return new ShopFragment();
-				case 1:
+				case HERO_FRAGMENT_NUMBER:
 					return new HeroFragment();
-				case 2:
+				case QUEST_FRAGMENT_NUMBER:
 					return new QuestsFragment();
 				default:
 					return null;
@@ -113,11 +117,11 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
-				case 0:
+				case SHOP_FRAGMENT_NUMBER:
 					return "Sklep";
-				case 1:
+				case HERO_FRAGMENT_NUMBER:
 					return "Bohater";
-				case 2:
+				case QUEST_FRAGMENT_NUMBER:
 					return "Misje";
 				default:
 					return "";

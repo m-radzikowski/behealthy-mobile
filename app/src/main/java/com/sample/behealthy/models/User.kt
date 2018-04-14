@@ -15,9 +15,6 @@ data class User(var id: Int,
 
         @Synchronized
         fun getInstance(ctx: Context): User {
-            if (User == null)
-                throw NullPointerException()
-
             return instance!!
         }
 

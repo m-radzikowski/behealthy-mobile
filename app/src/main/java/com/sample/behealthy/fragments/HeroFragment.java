@@ -1,4 +1,4 @@
-package com.sample.behealthy.Fragments;
+package com.sample.behealthy.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

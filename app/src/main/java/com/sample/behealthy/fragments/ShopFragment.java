@@ -1,4 +1,4 @@
-package com.sample.behealthy.Fragments;
+package com.sample.behealthy.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.behealthy.Dialogs.RewardDialog;
-import com.sample.behealthy.Dialogs.ShopDialog;
+import com.sample.behealthy.dialogs.RewardDialog;
+import com.sample.behealthy.dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;

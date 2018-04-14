@@ -1,4 +1,4 @@
-package com.sample.behealthy.widget;
+package com.sample.behealthy.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,7 @@ import com.sample.behealthy.models.Quest;
 import java.util.List;
 
 public class QuestArrayAdapter extends ArrayAdapter<Quest> {
+
 	private final Context context;
 	private final List<Quest> values;
 

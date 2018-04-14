@@ -1,4 +1,4 @@
-package com.sample.behealthy.Dialogs;
+package com.sample.behealthy.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;

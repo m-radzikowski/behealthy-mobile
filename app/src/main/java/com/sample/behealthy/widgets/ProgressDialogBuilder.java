@@ -1,4 +1,4 @@
-package com.sample.behealthy.widget;
+package com.sample.behealthy.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -37,7 +37,7 @@ public class ProgressDialogBuilder extends AlertDialog.Builder {
 	public AlertDialog create() {
 		AlertDialog dialog = super.create();
 
-		@SuppressLint("InflateParams") View v = dialog.getLayoutInflater().inflate(R.layout.d_progress, null);
+		@SuppressLint("InflateParams") View v = dialog.getLayoutInflater().inflate(R.layout.dialog_progress, null);
 		((TextView) v.findViewById(android.R.id.text1)).setText(message);
 
 		dialog.setView(v);

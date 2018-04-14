@@ -1,4 +1,4 @@
-package com.sample.behealthy.Dialogs;
+package com.sample.behealthy.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
 import com.sample.behealthy.models.Coupon;
 import com.sample.behealthy.models.User;
-import com.sample.behealthy.widget.MobileArrayAdapter;
+import com.sample.behealthy.widgets.MobileArrayAdapter;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShopDialog extends DialogFragment {
+
 	APIInterface apiInterface;
 	ListView listView;
 	ProgressBar progressBar;

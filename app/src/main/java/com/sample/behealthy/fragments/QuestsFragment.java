@@ -1,4 +1,4 @@
-package com.sample.behealthy.Fragments;
+package com.sample.behealthy.fragments;
 
 
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.sample.behealthy.api.APIInterface;
 import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.Quest;
 import com.sample.behealthy.models.User;
-import com.sample.behealthy.widget.QuestArrayAdapter;
+import com.sample.behealthy.widgets.QuestArrayAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
