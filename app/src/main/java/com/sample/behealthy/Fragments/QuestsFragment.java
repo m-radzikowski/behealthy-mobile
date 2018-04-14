@@ -12,14 +12,10 @@ import com.sample.behealthy.R;
 
 public class QuestsFragment extends Fragment {
 
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-		Bundle args = getArguments();
-		((TextView) rootView.findViewById(android.R.id.text1)).setText(
-			getString(R.string.quest_section));
+		View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
 		return rootView;
 	}
 }
