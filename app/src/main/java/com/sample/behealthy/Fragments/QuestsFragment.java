@@ -48,6 +48,7 @@ public class QuestsFragment extends Fragment {
 			public void onResponse(Call<List<Quest>> call, Response<List<Quest>> response) {
 				List<Quest> quests = response.body();
 				listView.setAdapter(new QuestArrayAdapter(getContext(), quests));
+				//listView.notifyAll();
 			}
 
 			@Override

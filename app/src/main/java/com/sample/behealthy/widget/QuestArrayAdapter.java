@@ -25,6 +25,11 @@ public class QuestArrayAdapter extends ArrayAdapter<Quest> {
 	}
 
 	@Override
+	public boolean hasStableIds() {
+		return true;
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -35,27 +40,32 @@ public class QuestArrayAdapter extends ArrayAdapter<Quest> {
 		TextView stateView = rowView.findViewById(R.id.state);
 		ImageView imageView = rowView.findViewById(R.id.icon);
 
-		for (Quest value : values) {
-			textView.setText(value.getTitle());
-			secondLine.setText(value.getDescription());
-			valueView.setText("Target KM: " + Integer.toString(value.getValue()));
+		Quest value = values.get(position);
 
-			switch (value.getType()) {
-				case "BIKE":
-					imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.bike));
-					break;
-				case "RUN":
-					imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.run));
-					break;
-			}
+		textView.setText(value.getTitle());
+		secondLine.setText(value.getDescription());
+		String valueText = value.getType().equals("KCAL") ?
+			"Cel Kcal: " : "Cel KM: ";
+		valueView.setText(valueText + Integer.toString(value.getValue()));
 
-			if (value.getDone()) {
-				stateView.setText("ZADANIE WYKONANE");
-				stateView.setTextColor(Color.rgb(65, 152, 67));
-			} else {
-				stateView.setText("W TRAKCIE WYKONYWANIA");
-				stateView.setTextColor(Color.rgb(255, 0, 0));
-			}
+		switch (value.getType()) {
+			case "BIKE":
+				imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.bike));
+				break;
+			case "RUN":
+				imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.run));
+				break;
+			case "KCAL":
+				imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.kcal));
+				break;
+		}
+
+		if (value.getDone()) {
+			stateView.setText("WYKONANE");
+			stateView.setTextColor(Color.rgb(65, 152, 67));
+		} else {
+			stateView.setText("W   TRAKCIE");
+			stateView.setTextColor(Color.rgb(127, 0, 0));
 		}
 		return rowView;
 	}

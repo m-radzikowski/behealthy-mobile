@@ -12,7 +12,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
-        android:text="Hero Name"
+        android:text="Imie"
         android:textColor="#000"
         android:textSize="40sp" />
 
@@ -30,10 +30,10 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="200dp"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
-        android:text="current   level"
+        android:text="3    lvl"
         android:textColor="#fff"
         android:textSize="40sp" />
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="170dp"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
         android:text="level   progress"
@@ -54,10 +54,10 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_height="25dp"
         android:layout_gravity="bottom|center_horizontal"
         android:progress="50"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="140dp"/>
 
 
 </FrameLayout>
