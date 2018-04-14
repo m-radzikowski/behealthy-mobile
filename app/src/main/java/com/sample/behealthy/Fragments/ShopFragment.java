@@ -3,8 +3,8 @@ package com.sample.behealthy.Fragments;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import com.sample.behealthy.Dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.models.Gold;
 import com.sample.behealthy.models.User;
 
 import retrofit2.Call;
@@ -59,12 +60,18 @@ public class ShopFragment extends Fragment {
 		goldTV.setText(Integer.toString(User.Companion.getInstance(getActivity()).getGold()));
 
 		chestIV = rootView.findViewById(R.id.chest_icon);
+		User user = User.Companion.getInstance(getContext());
+		if (user.getAvailableChests() > 0){
 		chestIV.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onChestClick();
 			}
-		});
+		});}else{
+			//TODO: Brak skrzyń, dać ładniejszą grafikę
+			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
+			chestIV.setOnClickListener(null);
+		}
 
 		// TODO:
 		// add checking if user has any chests
@@ -75,8 +82,15 @@ public class ShopFragment extends Fragment {
 
 	private void updateChestState(boolean state) {
 		chestOpened = state;
+		User user = User.Companion.getInstance(getContext());
+		if (user.getAvailableChests() > 0){
 		chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
 			R.drawable.chest_open : R.drawable.chest_closed));
+		}else {
+			//TODO: Brak skrzyń, dać ładniejszą grafikę
+			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
+			chestIV.setOnClickListener(null);
+		}
 
 	}
 
@@ -94,8 +108,16 @@ public class ShopFragment extends Fragment {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				updateChestState(false);
+				updateAmountOfGold();
 			}
 		});
+	}
+
+	private void updateAmountOfGold() {
+		User user = User.Companion.getInstance(getContext());
+		if (goldTV != null) {
+			goldTV.setText(Integer.toString(user.getGold()));
+		}
 	}
 
 	private void onChestClick() {
@@ -109,20 +131,30 @@ public class ShopFragment extends Fragment {
 		// TODO:
 		// add progressbar and add some delay to show functionality?
 
-		Call<User> chestOpenCall = apiInterface.getChestReward();
-		chestOpenCall.enqueue(new Callback<User>() {
+		Call<Gold> chestOpenCall = apiInterface.getChestReward();
+		chestOpenCall.enqueue(new Callback<Gold>() {
 			@Override
-			public void onResponse(Call<User> call, Response<User> response) {
+			public void onResponse(Call<Gold> call, Response<Gold> response) {
 				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-				showRewardDialog();
+				User user = User.Companion.getInstance(getContext());
+				Gold gold = response.body();
+				if (gold != null){
+					//TODO Brak monet, dorobić odpowiednie sprawdzanie
+					user.setGold(user.getGold() + gold.getGold());
+					showRewardDialog();
+				}
 
-				// TODO:
-				// add checking if user has any chests
-				// if yes set chest to closed state
+
+				if(user.getAvailableChests() > 0){
+					// TODO:
+					// add checking if user has any chests
+					// if yes set chest to closed state
+				}
+
 			}
 
 			@Override
-			public void onFailure(Call<User> call, Throwable t) {
+			public void onFailure(Call<Gold> call, Throwable t) {
 				Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 				call.cancel();
 

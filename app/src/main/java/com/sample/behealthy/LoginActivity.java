@@ -16,8 +16,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 public class LoginActivity extends FragmentActivity {
 
 	EditText usernameET;
@@ -56,7 +54,11 @@ public class LoginActivity extends FragmentActivity {
 		chestOpenCall.enqueue(new Callback<User>() {
 			@Override
 			public void onResponse(Call<User> call, Response<User> response) {
-				onSuccessfulLogin(response.body());
+				if (response.body() != null) {
+					onSuccessfulLogin(response.body());
+				} else {
+					onFailedLogin("jakis tam");
+				}
 			}
 
 			@Override
