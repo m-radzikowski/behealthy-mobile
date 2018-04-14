@@ -1,0 +1,12 @@
+<resources>
+	<string name="app_name">beHealthy</string>
+
+	<string name="dummy_section_text">Postac nasza</string>
+	<string name="quest_section">Misje nasze</string>
+
+	<string name="demo_external_activity">Button</string>
+	<string name="hero_fragment_title">Bohater</string>
+	<string name="quest_fragment_title">Misje</string>
+	<string name="shop_fragment_title">Sklep</string>
+
+</resources>
