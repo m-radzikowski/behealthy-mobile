@@ -17,7 +17,7 @@
             android:fontFamily="@font/arcadeclassic"
             android:padding="10dp"
             android:textColor="#fff"
-            android:text="Zadania dzienne"
+            android:text="Zadania    dzienne"
             android:textAlignment="center"
             android:textSize="24sp" />
 

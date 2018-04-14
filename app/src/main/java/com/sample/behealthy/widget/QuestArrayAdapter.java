@@ -51,7 +51,7 @@ public class QuestArrayAdapter extends ArrayAdapter<Quest> {
 
 			if (value.getDone()) {
 				stateView.setText("ZADANIE WYKONANE");
-				stateView.setTextColor(Color.rgb(40, 205, 0));
+				stateView.setTextColor(Color.rgb(65, 152, 67));
 			} else {
 				stateView.setText("W TRAKCIE WYKONYWANIA");
 				stateView.setTextColor(Color.rgb(255, 0, 0));
