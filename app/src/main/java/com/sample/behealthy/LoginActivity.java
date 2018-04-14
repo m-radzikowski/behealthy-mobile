@@ -44,7 +44,6 @@ public class LoginActivity extends FragmentActivity {
 
 				// TODO:
 				// some basic null checks etc
-
 				login(username, password);
 			}
 		});

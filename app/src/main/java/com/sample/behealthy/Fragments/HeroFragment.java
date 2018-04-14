@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class HeroFragment extends Fragment {
 	TextView lvlTV;
 	TextView lvlProgressTV;
 	ProgressBar progressBar;
+	ImageView playerIV;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class HeroFragment extends Fragment {
 		lvlTV = rootView.findViewById(R.id.level_title);
 		lvlProgressTV = rootView.findViewById(R.id.level_progres);
 		progressBar = rootView.findViewById(R.id.progressBar);
+		playerIV = rootView.findViewById(R.id.hero_icon);
 
 		update();
 
@@ -61,12 +64,30 @@ public class HeroFragment extends Fragment {
 
 		int until_level = (currentData.getLvl() + 1) * 1000;
 		int remaining = until_level - currentData.getExp();
-		int perecnt = 100 - (remaining == 0 ? 0 : remaining / 10);
+		int percent = 100 - (remaining == 0 ? 0 : remaining / 10);
 
 		nameTV.setText(currentData.getLogin());
 		lvlTV.setText(String.format("%d   LVL", currentData.getLvl()));
 		lvlProgressTV.setText(String.format("brakuje   %d   exp   do   awansu", remaining));
-		progressBar.setProgress(perecnt);
+		progressBar.setProgress(percent);
+
+		switch (currentData.getLvl()) {
+			case 0:
+				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_fat));
+				break;
+			case 1:
+				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_semifat));
+				break;
+			case 2:
+				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_lean));
+				break;
+			case 3:
+				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_strong));
+				break;
+			default:
+				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_stronger));
+				break;
+		}
 	}
 }
 

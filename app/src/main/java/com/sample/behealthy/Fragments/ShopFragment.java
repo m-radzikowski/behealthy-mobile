@@ -104,9 +104,7 @@ public class ShopFragment extends Fragment {
 			countTV.setVisibility(View.VISIBLE);
 			countView.setVisibility(View.VISIBLE);
 		} else {
-			// TODO
-			// Brak skrzyń, dać ładniejszą grafikę
-			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
+			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.no_chest));
 			chestIV.setOnClickListener(null);
 			countTV.setVisibility(View.INVISIBLE);
 			countView.setVisibility(View.INVISIBLE);
@@ -120,9 +118,7 @@ public class ShopFragment extends Fragment {
 			chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
 				R.drawable.chest_open : R.drawable.chest_closed));
 		} else {
-			//TODO
-			// Brak skrzyń, dać ładniejszą grafikę
-			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.coin));
+			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.no_chest));
 			chestIV.setOnClickListener(null);
 		}
 	}
@@ -161,9 +157,6 @@ public class ShopFragment extends Fragment {
 		}
 
 		changeChestState(true);
-
-		// TODO
-		// add progressbar and add some delay to show functionality?
 
 		Call<Gold> chestOpenCall = apiInterface.getChestReward(User.Companion.getInstance(getActivity()).getId());
 		chestOpenCall.enqueue(new Callback<Gold>() {
