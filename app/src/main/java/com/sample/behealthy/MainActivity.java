@@ -27,10 +27,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
 		final ActionBar actionBar = getActionBar();
-
-
 		actionBar.setHomeButtonEnabled(false);
-
+		getActionBar().setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
@@ -51,9 +49,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 
 		mViewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
-
 	}
-
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -67,7 +63,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 	}
-
 
 	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
