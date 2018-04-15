@@ -29,6 +29,15 @@
         android:textSize="20sp" />
 
     <ImageView
+        android:id="@+id/tip_of_the_day"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="-200dp"
+        android:layout_marginLeft="80dp"
+        android:src="@drawable/buble_steps"/>
+
+    <ImageView
         android:id="@+id/hero_icon"
         android:layout_width="280dp"
         android:layout_height="250dp"

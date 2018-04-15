@@ -1,22 +1,27 @@
 package com.sample.behealthy.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sample.behealthy.dialogs.RewardDialog;
-import com.sample.behealthy.dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.dialogs.RewardDialog;
+import com.sample.behealthy.dialogs.ShopDialog;
 import com.sample.behealthy.dialogs.TicketDialog;
 import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.Gold;
@@ -78,15 +83,49 @@ public class ShopFragment extends Fragment {
 		chestView = rootView.findViewById(R.id.chest_amount_shape);
 		chestCountTV = rootView.findViewById(R.id.chest_amount);
 
+
 		update();
 
 		return rootView;
 	}
 
+
+	private void onShakeImage() {
+		if (getActivity() == null)
+			return;
+
+		Animation shake;
+		shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+		chestIV.startAnimation(shake); // starts animation
+	}
+
+	private void startAnimation() {
+		final Handler handler = new Handler();
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				if (User.Companion.getInstance(getContext()).getAvailableChests() > 0) {
+					chestIV.clearAnimation();
+					onShakeImage();
+					handler.postDelayed(this, 3000);
+				}else {
+					chestIV.clearAnimation();
+				}
+			}
+		};
+
+		//Start
+		handler.postDelayed(runnable, 0);
+	}
+
+
 	@Override
 	public void onStart() {
 		super.onStart();
 
+		if (User.Companion.getInstance(getContext()).getAvailableChests() > 0) {
+			startAnimation();
+		}
 		if (!EventBus.getDefault().isRegistered(this)) {
 			EventBus.getDefault().register(this);
 
@@ -129,8 +168,18 @@ public class ShopFragment extends Fragment {
 			chestIV.setOnClickListener(null);
 			chestCountTV.setVisibility(View.INVISIBLE);
 			chestView.setVisibility(View.INVISIBLE);
+			chestIV.clearAnimation();
 		}
 	}
+
+	private void vibrate() {
+		Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+		if (v.hasVibrator()) {
+			long[] once = {0, 100};
+			v.vibrate(once, -1);
+		}
+	}
+
 
 	private void changeChestState(boolean state) {
 		chestOpened = state;
@@ -141,6 +190,7 @@ public class ShopFragment extends Fragment {
 		} else {
 			chestIV.setImageDrawable(getResources().getDrawable(R.drawable.no_chest));
 			chestIV.setOnClickListener(null);
+			chestIV.clearAnimation();
 		}
 	}
 
@@ -164,6 +214,7 @@ public class ShopFragment extends Fragment {
 	}
 
 	private void onChestClick() {
+		vibrate();
 		if (chestOpened) {
 			Toast.makeText(getContext(), "All chests already opened", Toast.LENGTH_SHORT).show();
 			return;

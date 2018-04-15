@@ -64,8 +64,7 @@ public class ShopDialog extends DialogFragment {
 				if (response.body().size() <= 0) {
 					Toast.makeText(getContext(), "Brak kuponów - poczekaj aż zostaną dodane nowe.", Toast.LENGTH_SHORT).show();
 					dismiss();
-				}
-				else
+				} else
 					couponsObtained(response.body());
 			}
 
@@ -90,6 +89,11 @@ public class ShopDialog extends DialogFragment {
 	}
 
 	private void couponClicked(final Coupon coupon) {
+		if (User.Companion.getInstance(getActivity()).getGold() < coupon.getGold()) {
+			Toast.makeText(getContext(), "Niewystarczająca ilość golda.", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		Call<Coupon> buyCouponCall = apiInterface.buyCoupon(coupon.getId(), User.Companion.getInstance(getActivity()).getId());
 		buyCouponCall.enqueue(new Callback<Coupon>() {
 			@Override

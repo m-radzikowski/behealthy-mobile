@@ -2,6 +2,8 @@ package com.sample.behealthy.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sample.behealthy.R;
+import com.sample.behealthy.dialogs.TipOfTheDayDialog;
 import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.User;
 
@@ -20,12 +23,19 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class HeroFragment extends Fragment {
 
+	final String TIP_DIALOGTAG = "tip_dialog";
+
 	TextView nameTV;
 	TextView titleTV;
 	TextView lvlTV;
 	TextView lvlProgressTV;
 	ProgressBar progressBar;
 	ImageView playerIV;
+	ImageView tipOfTheDayIV;
+
+	boolean animationStarted = false;
+
+	int imageCounter = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +47,7 @@ public class HeroFragment extends Fragment {
 		lvlProgressTV = rootView.findViewById(R.id.level_progres);
 		progressBar = rootView.findViewById(R.id.progressBar);
 		playerIV = rootView.findViewById(R.id.hero_icon);
+		tipOfTheDayIV = rootView.findViewById(R.id.tip_of_the_day);
 
 		update();
 
@@ -46,7 +57,10 @@ public class HeroFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		if (!animationStarted){
+			animationStarted = true;
+		startAnimation();
+		}
 		if (!EventBus.getDefault().isRegistered(this)) {
 			EventBus.getDefault().register(this);
 
@@ -68,6 +82,11 @@ public class HeroFragment extends Fragment {
 		update();
 	}
 
+	private void showTipOfTheDay() {
+		DialogFragment newFragment = new TipOfTheDayDialog();
+		newFragment.show(getFragmentManager(), TIP_DIALOGTAG);
+	}
+
 	@SuppressLint("DefaultLocale")
 	public void update() {
 		User currentData = User.Companion.getInstance(getActivity());
@@ -81,10 +100,17 @@ public class HeroFragment extends Fragment {
 		lvlProgressTV.setText(String.format("brakuje   %d   exp   do   awansu", remaining));
 		progressBar.setProgress(percent);
 
+		tipOfTheDayIV.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showTipOfTheDay();
+			}
+		});
+
 		switch (currentData.getLvl()) {
 			case 0:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_fat));
-				titleTV.setText("grubas");
+				titleTV.setText("obibok");
 				break;
 			case 1:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_semifat));
@@ -92,17 +118,36 @@ public class HeroFragment extends Fragment {
 				break;
 			case 2:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_lean));
-				titleTV.setText("giermek");
+				titleTV.setText("atleta");
 				break;
 			case 3:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_strong));
-				titleTV.setText("wojownik");
+				titleTV.setText("sportowiec");
 				break;
 			default:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_stronger));
-				titleTV.setText("krol");
+				titleTV.setText("olimpijczyk");
 				break;
 		}
+	}
+
+	private void startAnimation(){
+		final Handler handler = new Handler();
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+
+				tipOfTheDayIV.setImageLevel(imageCounter);
+				if (imageCounter != 2){
+					imageCounter++;
+				handler.postDelayed(this, 300);
+				}else{
+					imageCounter = 0;
+					handler.postDelayed(this, 2000);
+				}
+			}
+		};
+		handler.postDelayed(runnable, 0);
 	}
 }
 
