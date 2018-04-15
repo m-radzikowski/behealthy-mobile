@@ -106,7 +106,7 @@ public class ShopFragment extends Fragment {
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				if (User.Companion.getInstance(getContext()).getAvailableChests() > 0) {
+				if (getContext() != null && User.Companion.getInstance(getContext()).getAvailableChests() > 0) {
 					chestIV.clearAnimation();
 					onShakeImage();
 					handler.postDelayed(this, 3000);
@@ -188,7 +188,7 @@ public class ShopFragment extends Fragment {
 			chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
 				R.drawable.chest_open : R.drawable.chest_closed));
 			startAnimation();
-			
+
 			chestCountTV.setVisibility(View.VISIBLE);
 			chestView.setVisibility(View.VISIBLE);
 		} else {
