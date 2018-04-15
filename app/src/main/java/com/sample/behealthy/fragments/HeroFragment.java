@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.sample.behealthy.R;
 import com.sample.behealthy.dialogs.TipOfTheDayDialog;
+import com.sample.behealthy.events.RefreshEvent;
 import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.User;
 
@@ -49,6 +50,13 @@ public class HeroFragment extends Fragment {
 		playerIV = rootView.findViewById(R.id.hero_icon);
 		tipOfTheDayIV = rootView.findViewById(R.id.tip_of_the_day);
 
+		nameTV.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EventBus.getDefault().post(new RefreshEvent());
+			}
+		});
+
 		update();
 
 		return rootView;
@@ -57,9 +65,9 @@ public class HeroFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (!animationStarted){
+		if (!animationStarted) {
 			animationStarted = true;
-		startAnimation();
+			startAnimation();
 		}
 		if (!EventBus.getDefault().isRegistered(this)) {
 			EventBus.getDefault().register(this);
@@ -131,17 +139,17 @@ public class HeroFragment extends Fragment {
 		}
 	}
 
-	private void startAnimation(){
+	private void startAnimation() {
 		final Handler handler = new Handler();
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
 
 				tipOfTheDayIV.setImageLevel(imageCounter);
-				if (imageCounter != 2){
+				if (imageCounter != 2) {
 					imageCounter++;
-				handler.postDelayed(this, 300);
-				}else{
+					handler.postDelayed(this, 300);
+				} else {
 					imageCounter = 0;
 					handler.postDelayed(this, 2000);
 				}

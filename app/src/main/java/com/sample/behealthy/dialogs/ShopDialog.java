@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,13 @@ import android.widget.Toast;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.Coupon;
+import com.sample.behealthy.models.Gold;
 import com.sample.behealthy.models.User;
 import com.sample.behealthy.widgets.MobileArrayAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -98,7 +103,11 @@ public class ShopDialog extends DialogFragment {
 		buyCouponCall.enqueue(new Callback<Coupon>() {
 			@Override
 			public void onResponse(Call<Coupon> call, Response<Coupon> response) {
-				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+				User user = User.Companion.getInstance(getContext());
+				user.setGold(user.getGold() - coupon.getGold());
+
+				EventBus.getDefault().post(new UpdateEvent());
+
 				couponsYouCanBuy.remove(coupon);
 				couponsObtained(couponsYouCanBuy);
 			}

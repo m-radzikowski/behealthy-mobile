@@ -47,9 +47,11 @@ public class ShopFragment extends Fragment {
 	View chestView;
 	TextView chestCountTV;
 	ImageView ticketIV;
-
+	ImageView goldIconIV;
 	APIInterface apiInterface;
+	boolean animationStarted = false;
 
+	int imageCounter = 0;
 	private boolean chestOpened = false;
 
 	@SuppressLint("SetTextI18n")
@@ -82,7 +84,7 @@ public class ShopFragment extends Fragment {
 		chestIV = rootView.findViewById(R.id.chest_icon);
 		chestView = rootView.findViewById(R.id.chest_amount_shape);
 		chestCountTV = rootView.findViewById(R.id.chest_amount);
-
+		goldIconIV = rootView.findViewById(R.id.gold_icon);
 
 		update();
 
@@ -108,7 +110,7 @@ public class ShopFragment extends Fragment {
 					chestIV.clearAnimation();
 					onShakeImage();
 					handler.postDelayed(this, 3000);
-				}else {
+				} else {
 					chestIV.clearAnimation();
 				}
 			}
@@ -118,11 +120,33 @@ public class ShopFragment extends Fragment {
 		handler.postDelayed(runnable, 0);
 	}
 
+	private void startCoinAnimation() {
+		final Handler handler = new Handler();
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+
+				goldIconIV.setImageLevel(imageCounter);
+				if (imageCounter != 6) {
+					imageCounter++;
+					handler.postDelayed(this, 150);
+				} else {
+					imageCounter = 0;
+					handler.postDelayed(this, 150);
+				}
+			}
+		};
+		handler.postDelayed(runnable, 0);
+	}
+
 
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		if (!animationStarted) {
+			animationStarted = true;
+			startCoinAnimation();
+		}
 		if (User.Companion.getInstance(getContext()).getAvailableChests() > 0) {
 			startAnimation();
 		}
@@ -161,6 +185,10 @@ public class ShopFragment extends Fragment {
 					onChestClick();
 				}
 			});
+			chestIV.setImageDrawable(getResources().getDrawable(chestOpened ?
+				R.drawable.chest_open : R.drawable.chest_closed));
+			startAnimation();
+			
 			chestCountTV.setVisibility(View.VISIBLE);
 			chestView.setVisibility(View.VISIBLE);
 		} else {
@@ -179,7 +207,6 @@ public class ShopFragment extends Fragment {
 			v.vibrate(once, -1);
 		}
 	}
-
 
 	private void changeChestState(boolean state) {
 		chestOpened = state;

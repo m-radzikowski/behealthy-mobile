@@ -2,6 +2,8 @@ package com.sample.behealthy;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
 import com.sample.behealthy.dialogs.LevelUpDialog;
+import com.sample.behealthy.events.RefreshEvent;
 import com.sample.behealthy.fragments.HeroFragment;
 import com.sample.behealthy.fragments.QuestsFragment;
 import com.sample.behealthy.fragments.ShopFragment;
@@ -25,6 +28,8 @@ import com.sample.behealthy.models.SyncData;
 import com.sample.behealthy.models.User;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,13 +78,15 @@ public class MainActivity extends FragmentActivity {
 		viewPager.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+				swipeRefreshLayout.setEnabled(true);
+
 				switch (event.getAction()) {
 					case MotionEvent.ACTION_MOVE:
 						swipeRefreshLayout.setEnabled(false);
 						break;
 					case MotionEvent.ACTION_UP:
 					case MotionEvent.ACTION_CANCEL:
-						swipeRefreshLayout.setEnabled(true);
+						//swipeRefreshLayout.setEnabled(true);
 						break;
 				}
 				return false;
@@ -90,6 +97,20 @@ public class MainActivity extends FragmentActivity {
 		pageIndicatorView.setCount(NB_OF_VIEWS);
 		pageIndicatorView.setSelection(HERO_FRAGMENT_NUMBER);
 		pageIndicatorView.setViewPager(viewPager);
+
+		EventBus.getDefault().register(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onUpdateEvent(RefreshEvent event) {
+		swipeRefreshLayout.setRefreshing(true);
+		refreshUserData();
 	}
 
 	private void refreshUserData() {
@@ -101,7 +122,7 @@ public class MainActivity extends FragmentActivity {
 				User.Companion.setInitialUser(response.body().getUser());
 				EventBus.getDefault().postSticky(new UpdateEvent());
 
-				if (response.body().getChanges().getAddedExp() > 0) {
+				if (response.body().getChanges().getAddedLvl() > 0) {
 					Bundle args = new Bundle();
 					args.putInt(LevelUpDialog.EXP_GAINED_KEY, response.body().getChanges().getAddedExp());
 					args.putInt(LevelUpDialog.LVL_GAINED_KEY, response.body().getChanges().getAddedLvl());
