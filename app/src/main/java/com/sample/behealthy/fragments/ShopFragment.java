@@ -17,6 +17,7 @@ import com.sample.behealthy.dialogs.ShopDialog;
 import com.sample.behealthy.R;
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.dialogs.TicketDialog;
 import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.Gold;
 import com.sample.behealthy.models.User;
@@ -33,12 +34,14 @@ public class ShopFragment extends Fragment {
 
 	final String REWARD_DIALOGTAG = "reward_dialog";
 	final String SHOP_DIALOGTAG = "shop_dialog";
+	final String TICKET_DIALOGTAG = "ticket_dialog";
 
 	LinearLayout goldLL;
 	TextView goldTV;
 	ImageView chestIV;
 	View chestView;
 	TextView chestCountTV;
+	ImageView ticketIV;
 
 	APIInterface apiInterface;
 
@@ -54,10 +57,19 @@ public class ShopFragment extends Fragment {
 
 		// Setting up views
 		goldLL = rootView.findViewById(R.id.gold_layout);
+		ticketIV = rootView.findViewById(R.id.ticket_icon);
+
 		goldLL.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onGoldLayoutClick();
+			}
+		});
+
+		ticketIV.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onTicketClick();
 			}
 		});
 
@@ -135,6 +147,11 @@ public class ShopFragment extends Fragment {
 	private void onGoldLayoutClick() {
 		DialogFragment newFragment = new ShopDialog();
 		newFragment.show(getFragmentManager(), SHOP_DIALOGTAG);
+	}
+
+	private void onTicketClick() {
+		DialogFragment newFragment = new TicketDialog();
+		newFragment.show(getFragmentManager(), TICKET_DIALOGTAG);
 	}
 
 	private void showRewardDialog(int gold) {
