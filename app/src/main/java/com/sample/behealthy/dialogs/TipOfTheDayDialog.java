@@ -31,19 +31,17 @@ public class TipOfTheDayDialog extends DialogFragment {
 
 		tipTV = root.findViewById(R.id.tip);
 		Random rand = new Random();
-		int number = rand.nextInt(10 );
+		int number = rand.nextInt(7 );
 
 		List<String> list = new ArrayList<String>();
 		list.add("Jedz    Jarmuż ,     będziesz     wielki!");
-		list.add("drugi tip");
-		list.add("3 tip");
-		list.add("4 tip");
-		list.add("5 tip");
-		list.add("6 tip");
-		list.add("7 tip");
-		list.add("8 tip");
-		list.add("9 tip");
-		list.add("10 tip");
+		list.add("Unikaj    przetworzonego    jedzenia.");
+		list.add("Ogranicz    solenie    potraw.");
+		list.add("Jedz     proteiny    w    każdym    posiłku.");
+		list.add("Staraj    się    jeść    regularnie.");
+		list.add("Wypijaj    co    najmniej    1,5    litra    wody    dziennie.");
+		list.add("Pamiętaj    o    rozgrzewce    przed    treningiem.");
+
 		tipTV.setText(list.get(number));
 
 		return root;

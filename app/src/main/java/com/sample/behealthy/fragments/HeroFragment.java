@@ -2,6 +2,7 @@ package com.sample.behealthy.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,6 +33,10 @@ public class HeroFragment extends Fragment {
 	ImageView playerIV;
 	ImageView tipOfTheDayIV;
 
+	boolean animationStarted = false;
+
+	int imageCounter = 0;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_hero, container, false);
@@ -52,7 +57,10 @@ public class HeroFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		if (!animationStarted){
+			animationStarted = true;
+		startAnimation();
+		}
 		if (!EventBus.getDefault().isRegistered(this)) {
 			EventBus.getDefault().register(this);
 
@@ -121,6 +129,25 @@ public class HeroFragment extends Fragment {
 				titleTV.setText("krol");
 				break;
 		}
+	}
+
+	private void startAnimation(){
+		final Handler handler = new Handler();
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+
+				tipOfTheDayIV.setImageLevel(imageCounter);
+				if (imageCounter != 2){
+					imageCounter++;
+				handler.postDelayed(this, 300);
+				}else{
+					imageCounter = 0;
+					handler.postDelayed(this, 2000);
+				}
+			}
+		};
+		handler.postDelayed(runnable, 0);
 	}
 }
 
