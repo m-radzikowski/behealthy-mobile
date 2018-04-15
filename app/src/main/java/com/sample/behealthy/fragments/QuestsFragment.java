@@ -1,12 +1,16 @@
 package com.sample.behealthy.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sample.behealthy.R;
@@ -21,7 +25,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,11 +38,17 @@ public class QuestsFragment extends Fragment {
 	APIInterface apiInterface;
 	ListView listview;
 
+	TextView textTimer;
+
+	Handler handler = new Handler();
+	int delay = 1000; //milliseconds
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_quests, container, false);
 		apiInterface = APIClient.getClient().create(APIInterface.class);
 		listview = rootView.findViewById(R.id.listView1);
+		textTimer = rootView.findViewById(R.id.timer);
 
 		return rootView;
 	}
@@ -45,6 +57,22 @@ public class QuestsFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		getDailyQuest(listview);
+
+		handler.postDelayed(new Runnable() {
+			@SuppressLint("DefaultLocale")
+			public void run() {
+				Calendar rightNow = Calendar.getInstance();
+				int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+				int currentMinute = rightNow.get(Calendar.MINUTE);
+
+				textTimer.setText(String.format("Pozostalo   %02d : %02d",
+					23 - currentHour,
+					59 - currentMinute
+				));
+
+				handler.postDelayed(this, delay);
+			}
+		}, delay);
 
 		if (!EventBus.getDefault().isRegistered(this)) {
 			EventBus.getDefault().register(this);

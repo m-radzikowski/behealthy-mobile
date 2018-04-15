@@ -32,14 +32,12 @@ public class TicketDialog extends DialogFragment {
 	APIInterface apiInterface;
 	ListView listView;
 	ProgressBar progressBar;
-	TextView textView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.dialog_shop, container, false);
 		listView = rootView.findViewById(R.id.couponsListView);
 		progressBar = rootView.findViewById(R.id.progressBar);
-		textView = rootView.findViewById(R.id.text);
 
 		return rootView;
 	}
@@ -81,7 +79,6 @@ public class TicketDialog extends DialogFragment {
 			}
 		});
 
-		textView.setVisibility(View.GONE);
 		progressBar.setVisibility(View.GONE);
 	}
 

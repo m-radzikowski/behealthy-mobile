@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.sample.behealthy.R;
+import com.sample.behealthy.models.User;
 
 public class LevelUpDialog extends DialogFragment {
 
@@ -28,7 +29,7 @@ public class LevelUpDialog extends DialogFragment {
 		View root = inflater.inflate(R.layout.dialog_lvlup, container, false);
 
 		TextView rewardTV = root.findViewById(R.id.reward);
-		rewardTV.setText(String.format("zdobyles   %d   doswiadczenia   co   pozwolilo   ci   zdobyc    %d    poziomy", gainedLvl, gainedExp));
+		rewardTV.setText(String.format("zdobyles   %d   exp   i    awansowales    na     %d    poziom", gainedExp, User.Companion.getInstance(getActivity()).getLvl()));
 
 		return root;
 	}
@@ -45,7 +46,7 @@ public class LevelUpDialog extends DialogFragment {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		gainedLvl = getArguments().getInt(EXP_GAINED_KEY, -1);
-		gainedExp = getArguments().getInt(LVL_GAINED_KEY, -1);
+		gainedLvl = getArguments().getInt(LVL_GAINED_KEY, -1);
+		gainedExp = getArguments().getInt(EXP_GAINED_KEY, -1);
 	}
 }
