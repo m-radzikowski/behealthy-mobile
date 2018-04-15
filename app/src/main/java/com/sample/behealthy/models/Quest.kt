@@ -7,4 +7,5 @@ data class Quest(var title: String,
                  var type: String,
                  var date: Date,
                  var value: Int,
-                 var done: Boolean)
+                 var done: Boolean,
+                 var exp: Int)

@@ -32,7 +32,7 @@ public class ShopDialog extends DialogFragment {
 	APIInterface apiInterface;
 	ListView listView;
 	ProgressBar progressBar;
-	TextView textView;
+
 	List<Coupon> couponsYouCanBuy;
 
 	@Override
@@ -40,7 +40,6 @@ public class ShopDialog extends DialogFragment {
 		View rootView = inflater.inflate(R.layout.dialog_shop, container, false);
 		listView = rootView.findViewById(R.id.couponsListView);
 		progressBar = rootView.findViewById(R.id.progressBar);
-		textView = rootView.findViewById(R.id.text);
 
 		return rootView;
 	}
@@ -82,8 +81,6 @@ public class ShopDialog extends DialogFragment {
 				couponClicked(coupons.get(position));
 			}
 		});
-
-		textView.setVisibility(View.GONE);
 		progressBar.setVisibility(View.GONE);
 	}
 

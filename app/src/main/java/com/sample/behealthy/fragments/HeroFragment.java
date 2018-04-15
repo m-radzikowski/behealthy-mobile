@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class HeroFragment extends Fragment {
 
 	TextView nameTV;
+	TextView titleTV;
 	TextView lvlTV;
 	TextView lvlProgressTV;
 	ProgressBar progressBar;
@@ -31,6 +32,7 @@ public class HeroFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_hero, container, false);
 
 		nameTV = rootView.findViewById(R.id.name);
+		titleTV = rootView.findViewById(R.id.title);
 		lvlTV = rootView.findViewById(R.id.level_title);
 		lvlProgressTV = rootView.findViewById(R.id.level_progres);
 		progressBar = rootView.findViewById(R.id.progressBar);
@@ -82,18 +84,23 @@ public class HeroFragment extends Fragment {
 		switch (currentData.getLvl()) {
 			case 0:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_fat));
+				titleTV.setText("grubas");
 				break;
 			case 1:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_semifat));
+				titleTV.setText("nowicjusz");
 				break;
 			case 2:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_lean));
+				titleTV.setText("giermek");
 				break;
 			case 3:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_strong));
+				titleTV.setText("wojownik");
 				break;
 			default:
 				playerIV.setImageDrawable(getResources().getDrawable(R.drawable.character_stronger));
+				titleTV.setText("krol");
 				break;
 		}
 	}
