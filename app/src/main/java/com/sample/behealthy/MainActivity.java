@@ -1,6 +1,7 @@
 package com.sample.behealthy;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
+import com.sample.behealthy.dialogs.LevelUpDialog;
 import com.sample.behealthy.fragments.HeroFragment;
 import com.sample.behealthy.fragments.QuestsFragment;
 import com.sample.behealthy.fragments.ShopFragment;
@@ -32,6 +34,8 @@ public class MainActivity extends FragmentActivity {
 	static final int QUEST_FRAGMENT_NUMBER = 2;
 
 	static final int NB_OF_VIEWS = 3;
+
+	static final String LVLUP_DIALOG = "lvl_up_dialog_tag";
 
 	AppSectionsPagerAdapter sectionsPagerAdapter;
 	PageIndicatorView pageIndicatorView;
@@ -78,7 +82,18 @@ public class MainActivity extends FragmentActivity {
 				Toast.makeText(getApplication(), "Sync succeded", Toast.LENGTH_SHORT).show();
 
 				User.Companion.setInitialUser(response.body().getUser());
-				EventBus.getDefault().post(new UpdateEvent());
+				EventBus.getDefault().postSticky(new UpdateEvent());
+
+				if(response.body().getChanges().getAddedExp() > 0) {
+					Bundle args = new Bundle();
+					args.putInt(LevelUpDialog.EXP_GAINED_KEY, response.body().getChanges().getAddedExp());
+					args.putInt(LevelUpDialog.LVL_GAINED_KEY, response.body().getChanges().getAddedLvl());
+
+					FragmentManager fm = getSupportFragmentManager();
+					DialogFragment levelRewardDialog = new LevelUpDialog();
+					levelRewardDialog.setArguments(args);
+					levelRewardDialog.show(fm, LVLUP_DIALOG);
+				}
 			}
 
 			@Override
@@ -111,7 +126,7 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			return 3;
+			return NB_OF_VIEWS;
 		}
 
 		@Override

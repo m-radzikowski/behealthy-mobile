@@ -44,13 +44,21 @@ public class HeroFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EventBus.getDefault().register(this);
+
+		if (!EventBus.getDefault().isRegistered(this)) {
+			EventBus.getDefault().register(this);
+
+			UpdateEvent stickyEvent = EventBus.getDefault().getStickyEvent(UpdateEvent.class);
+			if (stickyEvent != null) {
+				update();
+			}
+		}
 	}
 
 	@Override
 	public void onStop() {
-		super.onStop();
 		EventBus.getDefault().unregister(this);
+		super.onStop();
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)

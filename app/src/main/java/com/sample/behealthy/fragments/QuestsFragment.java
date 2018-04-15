@@ -45,13 +45,21 @@ public class QuestsFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		getDailyQuest(listview);
-		EventBus.getDefault().register(this);
+
+		if (!EventBus.getDefault().isRegistered(this)) {
+			EventBus.getDefault().register(this);
+
+			UpdateEvent stickyEvent = EventBus.getDefault().getStickyEvent(UpdateEvent.class);
+			if (stickyEvent != null) {
+				update();
+			}
+		}
 	}
 
 	@Override
 	public void onStop() {
-		super.onStop();
 		EventBus.getDefault().unregister(this);
+		super.onStop();
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
