@@ -14,23 +14,12 @@ import android.widget.TextView;
 
 import com.sample.behealthy.R;
 
-public class LevelUpDialog extends DialogFragment {
-
-	public static final String EXP_GAINED_KEY = "exp_gained";
-	public static final String LVL_GAINED_KEY = "lvl_gained";
-
-	int gainedLvl;
-	int gainedExp;
+public class ProgressDialog extends DialogFragment {
 
 	@SuppressLint("DefaultLocale")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View root = inflater.inflate(R.layout.dialog_lvlup, container, false);
-
-		TextView rewardTV = root.findViewById(R.id.reward);
-		rewardTV.setText(String.format("zdobyles   %d   doswiadczenia   co   pozwolilo   ci   zdobyc    %d    poziomy", gainedLvl, gainedExp));
-
-		return root;
+		return inflater.inflate(R.layout.dialog_progress, container, false);
 	}
 
 	@NonNull
@@ -39,13 +28,5 @@ public class LevelUpDialog extends DialogFragment {
 		Dialog dialog = super.onCreateDialog(savedInstanceState);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		return dialog;
-	}
-
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		gainedLvl = getArguments().getInt(EXP_GAINED_KEY, -1);
-		gainedExp = getArguments().getInt(LVL_GAINED_KEY, -1);
 	}
 }

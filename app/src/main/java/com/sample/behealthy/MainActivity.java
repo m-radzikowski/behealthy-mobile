@@ -1,5 +1,6 @@
 package com.sample.behealthy;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.rd.PageIndicatorView;
@@ -43,6 +46,7 @@ public class MainActivity extends FragmentActivity {
 	ViewPager viewPager;
 	APIInterface apiInterface;
 
+	@SuppressLint("ClickableViewAccessibility")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -53,10 +57,6 @@ public class MainActivity extends FragmentActivity {
 		// Setting up view
 		sectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
-		viewPager = findViewById(R.id.pager);
-		viewPager.setAdapter(sectionsPagerAdapter);
-		viewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
-
 		swipeRefreshLayout = findViewById(R.id.swiperefresh);
 		swipeRefreshLayout.setOnRefreshListener(
 			new SwipeRefreshLayout.OnRefreshListener() {
@@ -66,6 +66,25 @@ public class MainActivity extends FragmentActivity {
 				}
 			}
 		);
+
+		viewPager = findViewById(R.id.pager);
+		viewPager.setAdapter(sectionsPagerAdapter);
+		viewPager.setCurrentItem(HERO_FRAGMENT_NUMBER);
+		viewPager.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+					case MotionEvent.ACTION_MOVE:
+						swipeRefreshLayout.setEnabled(false);
+						break;
+					case MotionEvent.ACTION_UP:
+					case MotionEvent.ACTION_CANCEL:
+						swipeRefreshLayout.setEnabled(true);
+						break;
+				}
+				return false;
+			}
+		});
 
 		pageIndicatorView = findViewById(R.id.pageIndicatorView);
 		pageIndicatorView.setCount(NB_OF_VIEWS);
@@ -79,12 +98,10 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onResponse(Call<SyncData> call, Response<SyncData> response) {
 				swipeRefreshLayout.setRefreshing(false);
-				Toast.makeText(getApplication(), "Sync succeded", Toast.LENGTH_SHORT).show();
-
 				User.Companion.setInitialUser(response.body().getUser());
 				EventBus.getDefault().postSticky(new UpdateEvent());
 
-				if(response.body().getChanges().getAddedExp() > 0) {
+				if (response.body().getChanges().getAddedExp() > 0) {
 					Bundle args = new Bundle();
 					args.putInt(LevelUpDialog.EXP_GAINED_KEY, response.body().getChanges().getAddedExp());
 					args.putInt(LevelUpDialog.LVL_GAINED_KEY, response.body().getChanges().getAddedLvl());
@@ -100,7 +117,7 @@ public class MainActivity extends FragmentActivity {
 			public void onFailure(Call<SyncData> call, Throwable t) {
 				call.cancel();
 				swipeRefreshLayout.setRefreshing(false);
-				Toast.makeText(getApplication(), "Sync failed", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplication(), "Nieudana synchronizacja danych.", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

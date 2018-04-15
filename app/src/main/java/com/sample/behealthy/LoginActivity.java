@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.sample.behealthy.api.APIClient;
 import com.sample.behealthy.api.APIInterface;
+import com.sample.behealthy.dialogs.ProgressDialog;
 import com.sample.behealthy.models.SyncData;
 import com.sample.behealthy.models.User;
 
@@ -23,6 +24,8 @@ public class LoginActivity extends FragmentActivity {
 	EditText passwordET;
 
 	APIInterface apiInterface;
+
+	ProgressDialog barProgressDialog;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +45,9 @@ public class LoginActivity extends FragmentActivity {
 				String username = usernameET.getText().toString();
 				String password = passwordET.getText().toString();
 
+				barProgressDialog = new ProgressDialog();
+				barProgressDialog.show(getSupportFragmentManager(), "tag");
+
 				// TODO:
 				// some basic null checks etc
 				login(username, password);
@@ -54,23 +60,27 @@ public class LoginActivity extends FragmentActivity {
 		loginCall.enqueue(new Callback<SyncData>() {
 			@Override
 			public void onResponse(Call<SyncData> call, Response<SyncData> response) {
+				if (barProgressDialog != null && barProgressDialog.isVisible()) {
+					barProgressDialog.dismiss();
+				}
+
 				if (response.body() != null) {
 					onSuccessfulLogin(response.body().getUser());
 				} else {
-					onFailedLogin("Obtained null body");
+					onFailedLogin("Logowanie nieudane. Sprawdź dane i spróbuj ponownie.");
 				}
 			}
 
 			@Override
 			public void onFailure(Call<SyncData> call, Throwable t) {
 				call.cancel();
-				onFailedLogin(t.getMessage());
+				onFailedLogin("Logowanie nieudane. Sprawdź połączenie z internetem i spróbuj ponownie.");
 			}
 		});
 	}
 
 	private void onSuccessfulLogin(User user) {
-		if(user == null)
+		if (user == null)
 			return;
 
 		User.Companion.setInitialUser(user);

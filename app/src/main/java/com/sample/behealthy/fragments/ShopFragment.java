@@ -158,7 +158,6 @@ public class ShopFragment extends Fragment {
 		chestOpenCall.enqueue(new Callback<Gold>() {
 			@Override
 			public void onResponse(Call<Gold> call, Response<Gold> response) {
-				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
 				User user = User.Companion.getInstance(getContext());
 				Gold gold = response.body();
 
