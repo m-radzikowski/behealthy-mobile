@@ -12,17 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
+        android:layout_centerHorizontal="true"
+        android:padding="40dp"
         android:indeterminate="true" />
 
-    <TextView
-        android:id="@android:id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@android:id/progress"
-        android:fontFamily="@font/arcadeclassic"
-        android:textColor="?android:attr/textColorSecondary" />
 </RelativeLayout>

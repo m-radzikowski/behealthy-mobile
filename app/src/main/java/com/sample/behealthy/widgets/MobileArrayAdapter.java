@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.sample.behealthy.R;
 import com.sample.behealthy.models.Coupon;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
@@ -28,18 +30,31 @@ public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
 	@NonNull
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		Coupon coupon = values.get(position);
 
 		View rowView = inflater.inflate(R.layout.list_coupon, parent, false);
 		TextView textView = rowView.findViewById(R.id.firstLine);
 		TextView secondLine = rowView.findViewById(R.id.secondLine);
+		TextView thirdLine = rowView.findViewById(R.id.thirdLine);
 		ImageView imageView = rowView.findViewById(R.id.icon);
 
-		textView.setText(values.get(position).getTitle());
-		secondLine.setText(Integer.toString(values.get(position).getGold()));
-		imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.coin));
+		textView.setText(coupon.getTitle());
+		secondLine.setText(coupon.getDescription());
+		thirdLine.setText(Integer.toString(coupon.getGold()));
 
+		switch (coupon.getType()) {
+			case "FOOD":
+				imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.cabage));
+				break;
+			case "DRINK":
+				imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.juice));
+				break;
+			case "SPORT":
+				imageView.setImageDrawable(rowView.getResources().getDrawable(R.drawable.weights));
+				break;
+		}
 
 		return rowView;
 	}

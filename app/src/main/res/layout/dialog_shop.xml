@@ -8,24 +8,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
+        android:layout_centerHorizontal="true"
+        android:padding="40dp"
         android:indeterminate="true" />
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="60dp"
-        android:text="Lączenie z serwerem"
-        android:textAlignment="center" />
 
     <ListView
         android:id="@+id/couponsListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="100dp"
-        android:layout_marginTop="100dp" />
+        android:layout_alignParentTop="true"" />
 
 </RelativeLayout>

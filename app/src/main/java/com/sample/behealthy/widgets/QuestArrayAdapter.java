@@ -68,9 +68,11 @@ public class QuestArrayAdapter extends ArrayAdapter<Quest> {
 		if (value.getDone()) {
 			stateView.setText("WYKONANE");
 			stateView.setTextColor(Color.rgb(65, 152, 67));
+			rowView.setBackground(context.getDrawable(R.drawable.crumpeled_paper));
 		} else {
-			stateView.setText("W   TRAKCIE");
+			stateView.setText(Integer.toString(value.getExp()) + "   EXP");
 			stateView.setTextColor(Color.rgb(127, 0, 0));
+			rowView.setBackground(context.getDrawable(R.drawable.crumpeled_paper_active));
 		}
 		return rowView;
 	}
