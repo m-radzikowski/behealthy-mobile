@@ -27,13 +27,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShopDialog extends DialogFragment {
+public class TicketDialog extends DialogFragment {
 
 	APIInterface apiInterface;
 	ListView listView;
 	ProgressBar progressBar;
 	TextView textView;
-	List<Coupon> couponsYouCanBuy;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class ShopDialog extends DialogFragment {
 	public void onStart() {
 		super.onStart();
 
-		Call<List<Coupon>> getCouponsCall = apiInterface.getAvailableCoupons(User.Companion.getInstance(getActivity()).getId());
+		Call<List<Coupon>> getCouponsCall = apiInterface.getMyCoupons(User.Companion.getInstance(getActivity()).getId());
 		getCouponsCall.enqueue(new Callback<List<Coupon>>() {
 			@Override
 			public void onResponse(Call<List<Coupon>> call, Response<List<Coupon>> response) {
@@ -74,7 +73,6 @@ public class ShopDialog extends DialogFragment {
 	}
 
 	private void couponsObtained(final List<Coupon> coupons) {
-		couponsYouCanBuy = coupons;
 		listView.setAdapter(new MobileArrayAdapter(getContext(), coupons));
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -87,14 +85,12 @@ public class ShopDialog extends DialogFragment {
 		progressBar.setVisibility(View.GONE);
 	}
 
-	private void couponClicked(final Coupon coupon) {
+	private void couponClicked(Coupon coupon) {
 		Call<Coupon> buyCouponCall = apiInterface.buyCoupon(coupon.getId(), User.Companion.getInstance(getActivity()).getId());
 		buyCouponCall.enqueue(new Callback<Coupon>() {
 			@Override
 			public void onResponse(Call<Coupon> call, Response<Coupon> response) {
 				Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
-				couponsYouCanBuy.remove(coupon);
-				couponsObtained(couponsYouCanBuy);
 			}
 
 			@Override
