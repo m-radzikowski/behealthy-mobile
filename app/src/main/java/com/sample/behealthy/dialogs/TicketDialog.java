@@ -59,7 +59,11 @@ public class TicketDialog extends DialogFragment {
 		getCouponsCall.enqueue(new Callback<List<Coupon>>() {
 			@Override
 			public void onResponse(Call<List<Coupon>> call, Response<List<Coupon>> response) {
-				couponsObtained(response.body());
+				if (response.body().size() <= 0) {
+					Toast.makeText(getContext(), "Brak kuponów - najpierw musisz je zakupić.", Toast.LENGTH_SHORT).show();
+					dismiss();
+				} else
+					couponsObtained(response.body());
 			}
 
 			@Override
