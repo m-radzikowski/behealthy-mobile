@@ -2,6 +2,7 @@ package com.sample.behealthy.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sample.behealthy.R;
+import com.sample.behealthy.dialogs.TipOfTheDayDialog;
 import com.sample.behealthy.events.UpdateEvent;
 import com.sample.behealthy.models.User;
 
@@ -20,11 +22,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class HeroFragment extends Fragment {
 
+	final String TIP_DIALOGTAG = "tip_dialog";
+
 	TextView nameTV;
 	TextView lvlTV;
 	TextView lvlProgressTV;
 	ProgressBar progressBar;
 	ImageView playerIV;
+	ImageView tipOfTheDayIV;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class HeroFragment extends Fragment {
 		lvlProgressTV = rootView.findViewById(R.id.level_progres);
 		progressBar = rootView.findViewById(R.id.progressBar);
 		playerIV = rootView.findViewById(R.id.hero_icon);
+		tipOfTheDayIV = rootView.findViewById(R.id.tip_of_the_day);
 
 		update();
 
@@ -66,6 +72,11 @@ public class HeroFragment extends Fragment {
 		update();
 	}
 
+	private void showTipOfTheDay() {
+		DialogFragment newFragment = new TipOfTheDayDialog();
+		newFragment.show(getFragmentManager(), TIP_DIALOGTAG);
+	}
+
 	@SuppressLint("DefaultLocale")
 	public void update() {
 		User currentData = User.Companion.getInstance(getActivity());
@@ -78,6 +89,13 @@ public class HeroFragment extends Fragment {
 		lvlTV.setText(String.format("%d   LVL", currentData.getLvl()));
 		lvlProgressTV.setText(String.format("brakuje   %d   exp   do   awansu", remaining));
 		progressBar.setProgress(percent);
+
+		tipOfTheDayIV.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showTipOfTheDay();
+			}
+		});
 
 		switch (currentData.getLvl()) {
 			case 0:
