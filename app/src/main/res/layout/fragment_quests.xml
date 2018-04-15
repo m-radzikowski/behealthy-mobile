@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#412720"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#412720">
 
     <LinearLayout
         android:id="@+id/linerlayout"
@@ -14,12 +14,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/arcadeclassic"
             android:padding="10dp"
-            android:layout_marginTop="20dp"
-            android:textColor="#fff"
             android:text="dzisiejsze   questy"
             android:textAlignment="center"
+            android:textColor="#fff"
             android:textSize="40sp" />
 
         <ListView
@@ -28,6 +28,6 @@
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="20.0sp"/>
+            android:dividerHeight="20.0sp" />
     </LinearLayout>
 </FrameLayout>

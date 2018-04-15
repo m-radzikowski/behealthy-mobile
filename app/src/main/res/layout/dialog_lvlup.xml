@@ -11,8 +11,8 @@
         android:layout_gravity="center"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
-        android:textSize="30dp"
-        android:text="w    skrzynce    trafiles    na"
+        android:text="awans"
+        android:textSize="40dp"
         android:textAlignment="center" />
 
     <ImageView
@@ -20,16 +20,16 @@
         android:layout_height="60dp"
         android:padding="10dp"
         android:layout_gravity="center"
-        android:src="@drawable/coin" />
+        android:src="@drawable/cup" />
 
     <TextView
-        android:id="@+id/gold_reward"
+        android:id="@+id/reward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="@font/arcadeclassic"
         android:padding="10dp"
-        android:text="x   sztuk   zlota"
+        android:text="zdobyles   x   expa"
         android:textAlignment="center" />
 
 </LinearLayout>

@@ -20,7 +20,7 @@ public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
 	private final List<Coupon> values;
 
 	public MobileArrayAdapter(Context context, List<Coupon> values) {
-		super(context, R.layout.list_item, values);
+		super(context, R.layout.list_coupon, values);
 		this.context = context;
 		this.values = values;
 	}
@@ -31,7 +31,7 @@ public class MobileArrayAdapter extends ArrayAdapter<Coupon> {
 		LayoutInflater inflater = (LayoutInflater) context
 			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View rowView = inflater.inflate(R.layout.list_item, parent, false);
+		View rowView = inflater.inflate(R.layout.list_coupon, parent, false);
 		TextView textView = rowView.findViewById(R.id.firstLine);
 		TextView secondLine = rowView.findViewById(R.id.secondLine);
 		ImageView imageView = rowView.findViewById(R.id.icon);

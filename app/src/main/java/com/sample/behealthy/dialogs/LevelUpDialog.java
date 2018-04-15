@@ -14,20 +14,21 @@ import android.widget.TextView;
 
 import com.sample.behealthy.R;
 
-public class RewardDialog extends DialogFragment {
+public class LevelUpDialog extends DialogFragment {
 
-	public static final String GOLD_REWARD_KEY = "gold_reward";
+	public static final String EXP_GAINED_KEY = "exp_gained";
+	public static final String LVL_GAINED_KEY = "lvl_gained";
 
-	TextView rewardTV;
-	int goldReward;
+	int gainedLvl;
+	int gainedExp;
 
 	@SuppressLint("DefaultLocale")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View root = inflater.inflate(R.layout.dialog_reward, container, false);
+		View root = inflater.inflate(R.layout.dialog_lvlup, container, false);
 
-		rewardTV = root.findViewById(R.id.gold_reward);
-		rewardTV.setText(String.format("%d   sztuk   zlota", goldReward));
+		TextView rewardTV = root.findViewById(R.id.reward);
+		rewardTV.setText(String.format("zdobyles   %d   poziom    oraz    %d   doswiadczenia", gainedLvl, gainedExp));
 
 		return root;
 	}
@@ -44,6 +45,7 @@ public class RewardDialog extends DialogFragment {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		goldReward = getArguments().getInt(GOLD_REWARD_KEY, -1);
+		gainedLvl = getArguments().getInt(EXP_GAINED_KEY, -1);
+		gainedExp = getArguments().getInt(LVL_GAINED_KEY, -1);
 	}
 }

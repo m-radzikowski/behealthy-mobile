@@ -55,7 +55,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:fontFamily="@font/arcadeclassic"
             android:text="Zaloguj    sie"
-            android:textColor="#FBD705"/>
+            android:textColor="#FBD705" />
 
     </LinearLayout>
 
